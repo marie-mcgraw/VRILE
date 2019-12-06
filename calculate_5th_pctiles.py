@@ -32,7 +32,7 @@ if __name__ == "__main__":
     clear_all()
 
 #Load model sea ice extent (SIE) data    
-filepath = '/home/disk/sipn/mcmcgraw/data/VRILE/intermediate_data/'
+filepath = '/home/disk/sipn/mcmcgraw/data/VRILE_old/VRILE/intermediate_data/'
 model_name = 'ecmwfsipn'
 model_type = 'reforecast'
 day_change = 5
@@ -150,21 +150,21 @@ for ireg in np.arange(0,len(region_names)):
 
 fname_save = '{model_name}_{model_type}_5th_pctile_{day_change}day_change_lead_time_{max_lead}_days_ALL_ENS.csv'.format(model_name=model_name,
               model_type=model_type,day_change=day_change,max_lead=max_lead)
-SIC_p5.to_csv('/home/disk/sipn/mcmcgraw/data/VRILE/intermediate_data/'+fname_save)    
+SIC_p5.to_csv('/home/disk/sipn/mcmcgraw/data/VRILE/'+fname_save)    
 
-SIC_model_mean.to_csv("/home/disk/sipn/mcmcgraw/data/VRILE/intermediate_data/"\
+SIC_model_mean.to_csv("/home/disk/sipn/mcmcgraw/data/VRILE/"\
                      "{model_name}_{model_type}_mean_{day_change}day_change_lead_time_{max_lead}_days_ALL_ENS.csv".format(model_name=model_name,
               model_type=model_type,day_change=day_change,max_lead=max_lead))    
 #
-SIC_model_median.to_csv("/home/disk/sipn/mcmcgraw/data/VRILE/intermediate_data/"\
+SIC_model_median.to_csv("/home/disk/sipn/mcmcgraw/data/VRILE/"\
                       "{model_name}_{model_type}_median_{day_change}day_change_lead_time_{max_lead}_days_ALL_ENS.csv".format(model_name=model_name,
               model_type=model_type,day_change=day_change,max_lead=max_lead))
 #
-SIC_model_p95.to_csv("/home/disk/sipn/mcmcgraw/data/VRILE/intermediate_data/"\
+SIC_model_p95.to_csv("/home/disk/sipn/mcmcgraw/data/VRILE"\
                       "{model_name}_{model_type}_95th_pctile_{day_change}day_change_lead_time_{max_lead}_days_ALL_ENS.csv".format(model_name=model_name,
               model_type=model_type,day_change=day_change,max_lead=max_lead)) 
 
-SIC_model_var.to_csv("/home/disk/sipn/mcmcgraw/data/VRILE/intermediate_data/"\
+SIC_model_var.to_csv("/home/disk/sipn/mcmcgraw/data/VRILE/"\
                       "{model_name}_{model_type}_variance_{day_change}day_change_lead_time_{max_lead}_days_ALL_ENS.csv".format(model_name=model_name,
               model_type=model_type,day_change=day_change,max_lead=max_lead))   
 #for xreg in np.arange(0,len(region_names_obs)):
@@ -187,19 +187,19 @@ SIC_model_var.to_csv("/home/disk/sipn/mcmcgraw/data/VRILE/intermediate_data/"\
 
 fname_obs_save = 'NSIDC_5th_pctile_{day_change}day_change_lead_time_{max_lead}_days_ALL_ENS_{filt_app}.csv'.format(day_change=day_change,
                                    max_lead=max_lead,filt_app=filt_app)
-SIC_obs_p5.to_csv('/home/disk/sipn/mcmcgraw/data/VRILE/intermediate_data/'+fname_obs_save)
+SIC_obs_p5.to_csv('/home/disk/sipn/mcmcgraw/data/VRILE/'+fname_obs_save)
 
-SIC_obs_mean.to_csv("/home/disk/sipn/mcmcgraw/data/VRILE/intermediate_data/"\
+SIC_obs_mean.to_csv("/home/disk/sipn/mcmcgraw/data/VRILE/"\
                     "NSIDC_mean_{day_change}day_change_lead_time_{max_lead}_days_ALL_ENS_{filt_app}.csv".format(day_change=day_change,
                                    max_lead=max_lead,filt_app=filt_app))
-SIC_obs_median.to_csv("/home/disk/sipn/mcmcgraw/data/VRILE/intermediate_data/"\
+SIC_obs_median.to_csv("/home/disk/sipn/mcmcgraw/data/VRILE/"\
                     "NSIDC_median_{day_change}day_change_lead_time_{max_lead}_days_ALL_ENS_{filt_app}.csv".format(day_change=day_change,
                                    max_lead=max_lead,filt_app=filt_app))
-SIC_obs_p95.to_csv("/home/disk/sipn/mcmcgraw/data/VRILE/intermediate_data/"\
+SIC_obs_p95.to_csv("/home/disk/sipn/mcmcgraw/data/VRILE/"\
                     "NSIDC_95th_pctile_{day_change}day_change_lead_time_{max_lead}_days_ALL_ENS_{filt_app}.csv".format(day_change=day_change,
                                    max_lead=max_lead,filt_app=filt_app))
 #
-SIC_obs_var.to_csv("/home/disk/sipn/mcmcgraw/data/VRILE/intermediate_data/"\
+SIC_obs_var.to_csv("/home/disk/sipn/mcmcgraw/data/VRILE/"\
                     "NSIDC_variance_{day_change}day_change_lead_time_{max_lead}_days_ALL_ENS_{filt_app}.csv".format(day_change=day_change,
                                    max_lead=max_lead,filt_app=filt_app))
 #colors = ['xkcd:bright blue','xkcd:salmon','xkcd:goldenrod','xkcd:red orange',
@@ -247,7 +247,7 @@ ax2.legend(region_names,ncol=2,bbox_to_anchor=(1.025,0.52165))
 ax2.set_ylabel('Change in SIE (10^6 km^2)')
 ax2.set_title('5th Percentile, Obs - Model, lead time {max_lead} days'.format(max_lead=max_lead))
 ax2.set_xlim([-0.5,11.5])
-fname_2 = '/home/disk/sipn/mcmcgraw/figures/VRILE/{model_name}_{model_type}_model_minus_obs_pctile5_{day_change}day_change_{max_lead}day_lead_{filt_app}.png'.format(model_name=model_name,
+fname_2 = '/home/disk/sipn/mcmcgraw/figures/VRILE_v2/{model_name}_{model_type}_model_minus_obs_pctile5_{day_change}day_change_{max_lead}day_lead_{filt_app}.png'.format(model_name=model_name,
                                                   model_type=model_type,day_change=day_change,
                                                   max_lead=max_lead,filt_app=filt_app)
 fig2.savefig(fname_2,format='png',dpi=600,bbox_inches='tight')
@@ -259,7 +259,7 @@ ax3.set_xlim(-0.5,11.5)
 ax3.legend(leg_handles,region_names,ncol=2,bbox_to_anchor=(1, 1.025))
 ax3.set_ylabel('%',fontsize=11)
 ax3.set_title('Frequency that modeled SIE is below observed 5th percentile',fontsize=12)
-fname_3 = '/home/disk/sipn/mcmcgraw/figures/VRILE/{model_name}_{model_type}_freq_model_below_obs_5pct_{day_change}day_change_{max_lead}day_lead_{filt_app}.png'.format(model_name=model_name,
+fname_3 = '/home/disk/sipn/mcmcgraw/figures/VRILE_v2/{model_name}_{model_type}_freq_model_below_obs_5pct_{day_change}day_change_{max_lead}day_lead_{filt_app}.png'.format(model_name=model_name,
     model_type=model_type,day_change=day_change,max_lead=max_lead,filt_app=filt_app)
     
 fig3.savefig(fname_3,format='png',dpi=600,bbox_inches='tight')
@@ -286,7 +286,7 @@ ax4.set_xlim(-0.5,11.5)
 ax4.legend(leg_handles[region_names_sub],[region_names[regind] for regind in region_names_sub],bbox_to_anchor=(1,1))
 ax4.set_ylabel('%',fontsize=11)
 ax4.set_title('Frequency that modeled SIE is below observed 5th percentile',fontsize=12)
-fname_4 = "/home/disk/sipn/mcmcgraw/figures/VRILE/{model_name}_{model_type}_"\
+fname_4 = "/home/disk/sipn/mcmcgraw/figures/VRILE_v2/{model_name}_{model_type}_"\
 "_freq_model_below_obs_5pct_SELECT_{day_change}day_change_{max_lead}day_lead_"\
 "_{filt_app}.png".format(model_name=model_name,model_type=model_type,
   day_change=day_change,max_lead=max_lead,filt_app=filt_app)
@@ -294,7 +294,7 @@ fig4.savefig(fname_4,format='png',dpi=600,bbox_inches='tight')
 #ax4.set_ylim([-0])
 
 ax4.set_ylim(-0.5,15.5)
-fname_4b = "/home/disk/sipn/mcmcgraw/figures/VRILE/{model_name}_{model_type}_"\
+fname_4b = "/home/disk/sipn/mcmcgraw/figures/VRILE_v2/{model_name}_{model_type}_"\
 "_freq_model_below_obs_5pct_SELECT_ZOOM_{day_change}day_change_{max_lead}day_lead_"\
 "_{filt_app}.png".format(model_name=model_name,model_type=model_type,
   day_change=day_change,max_lead=max_lead,filt_app=filt_app)
@@ -306,7 +306,7 @@ ax5.legend(leg_handles[region_names_sub],[region_names[regind2] for regind2 in r
            bbox_to_anchor=(1, 1))
 ax5.set_ylabel('Change in SIE (10^6 km^2)',fontsize=11)
 ax5.set_title('Magnitude of 5th Percentile, Lead Time up to {max_lead} Days'.format(max_lead=max_lead))
-fname_5 = '/home/disk/sipn/mcmcgraw/figures/VRILE/{model_name}_{model_type}_AND_obs_SELECT_pctile5_{day_change}day_change_{max_lead}day_lead_{filt_app}.png'.format(model_name=model_name,
+fname_5 = '/home/disk/sipn/mcmcgraw/figures/VRILE_v2/{model_name}_{model_type}_AND_obs_SELECT_pctile5_{day_change}day_change_{max_lead}day_lead_{filt_app}.png'.format(model_name=model_name,
                                                   model_type=model_type,day_change=day_change,max_lead=max_lead,
                                                   filt_app=filt_app)
 fig5.savefig(fname_5,format='png',dpi=600,bbox_inches='tight')

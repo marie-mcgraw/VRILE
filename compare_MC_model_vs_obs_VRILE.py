@@ -1,6 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
+Created on Thu Nov  7 13:00:55 2019
+
+@author: mcmcgraw
+"""
+
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
 Created on Wed Oct  2 13:48:13 2019
 
 @author: mcmcgraw
@@ -16,7 +24,6 @@ from datetime import datetime, date
 import scipy.stats as stats
 import random
 import matplotlib.colors as colors
-from matplotlib.colors import LogNorm
 
 ##Clear workspace before running 
 def clear_all():
@@ -40,7 +47,7 @@ max_lead = 30
 
 #Load counts
 #Create custom colorbar
-cmap_bounds = np.array([0,2.5,5,10,25,40,60,75,95,100])
+cmap_bounds = np.array([0,2.5,5,10,25,40,60,75,90,100])
 color_list = ['#f97306','#6a79f7','#3f9b0b','#fd3c06','#bf77f6',
               '#cb416b','#929591','#fac205','#02d8e9']
 custom_cmap = colors.ListedColormap(color_list)
@@ -80,18 +87,3 @@ ax2.set_title('How Often is the Modeled VRIGE Stronger than the Observed VRIGE?'
 fname_2 = '/home/disk/sipn/mcmcgraw/figures/VRILE/{model_name}_{model_type}_modeled_VRIGE_stronger_than_observed.png'.format(model_name=model_name,
                                                   model_type=model_type)
 fig2.savefig(fname_2,format='png',dpi=600,bbox_inches='tight')
-
-obs_model_median_diff = pd.read_csv(filepath+"obs_minus_{model_name}_{model_type}_median_RESAMPLED_MC.csv".format(model_name=model_name,
-                        model_type=model_type))
-
-cmap_bounds_2 = np.array([np.arange(-6,7)])
-color_list_2 = ['#f97306','#6a79f7','#3f9b0b','#fd3c06','#bf77f6','#7b0323',
-              '#cb416b','#e6daa6','#040273','#929591','#c9ff27','#fac205',
-              '#02d8e9']
-custom_cmap2 = colors.ListedColormap(color_list_2)
-cust_norm_2 = colors.BoundaryNorm(boundaries=cmap_bounds_2,ncolors=13)
-actual_values_med = obs_model_median_diff.iloc[:,1:-1]
-med_sign = np.sign(actual_values_med)
-log_med = np.log10(abs(actual_values_med))
-values_med_plot = -1*med_sign*log_med
-

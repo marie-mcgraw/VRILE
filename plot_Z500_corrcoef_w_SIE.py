@@ -81,34 +81,42 @@ SIE_region_groups = SIE_file_full.groupby(['region'])
 
 #Identify lowest 5th pctile of SIE dates.  First sort by region and ensemble
 #for ireg in SIE_regions_list:
-ireg = 'Barents Sea'
+ireg = 'Kara Sea'
 print('now plotting {region}'.format(region=ireg))
 region_sel_test = ireg
 SIE_region_sel_test = SIE_region_groups.get_group(region_sel_test)
 no_ens = 6
-for iens in np.arange(0,no_ens):
-    #iens = 0
-    print('now plotting ensemble number {ens}'.format(ens=iens+1))
-    ens_sel = iens+1
-    SIE_ens_sel_test = SIE_region_sel_test.groupby(['ensemble']).get_group(ens_sel)
-    #SIE_ens_sel_test = SIE_region_sel_test
-    #Calculate 5th percentile
-    pctile5 = SIE_ens_sel_test['d_SIC (V - I)'].quantile(0.05)
-    valid_date_ens = SIE_ens_sel_test['V (valid date)']
-    vdate_check = pd.DatetimeIndex(np.array(valid_date_ens.values))
-    find_VRILE_days = SIE_ens_sel_test['d_SIC (V - I)'].where(SIE_ens_sel_test['d_SIC (V - I)'] <= pctile5)
-    VRILE_dates = SIE_ens_sel_test['V (valid date)'].where(SIE_ens_sel_test['d_SIC (V - I)'] <= pctile5)
-    #Now, grab Z500 for these dates
-    VRILE_dates_Z500 = (valid_dates.isin(VRILE_dates) & valid_dates.month.isin(mon_sel_ind))
-    valid_dates_summer = valid_dates.month.isin(mon_sel_ind)
-    valid_dates_summer = valid_dates_summer.flatten()
-    valid_dates_ind = np.asarray(np.where(VRILE_dates_Z500 == True))
-    valid_dates_ind = valid_dates_ind.flatten()
-    
-    #Z500_select = z500[valid_dates_ind,ens_sel-1,:,:].values.reshape(len(valid_dates_ind)*s2,s3,s4)
-    Z500_mean = z500[valid_dates_ind,ens_sel-1,:,:].mean(axis=0)
-    #Z500_anoms = Z500_mean - z500[valid_dates_summer,ens_sel-1,:,:].mean(axis=0)
-    Z500_anoms = Z500_mean - z500[valid_dates_summer,ens_sel-1,:,:]
+#for iens in np.arange(0,no_ens):
+iens = 0
+print('now plotting ensemble number {ens}'.format(ens=iens+1))
+ens_sel = iens+1
+SIE_ens_sel_test = SIE_region_sel_test.groupby(['ensemble']).get_group(ens_sel)
+#SIE_ens_sel_test = SIE_region_sel_test
+#Calculate 5th percentile
+pctile5 = SIE_ens_sel_test['d_SIC (V - I)'].quantile(0.05)
+valid_date_ens = SIE_ens_sel_test['V (valid date)']
+#Limit only to dates that are included in both datasets
+vdate_check = pd.DatetimeIndex(np.array(valid_date_ens.values))
+dates_adj_ind = vdate_check.difference(valid_dates)
+dates_to_keep = ~vdate_check.isin(dates_adj_ind)
+dates_adjusted = vdate_check.where(dates_to_keep==True)
+dates_adjusted = dates_adjusted.dropna()
+SIE_adjusted = SIE_ens_sel_test['d_SIC (V - I)'].where(dates_to_keep==True)
+#find_VRILE_days = SIE_ens_sel_test['d_SIC (V - I)'].where((SIE_ens_sel_test['d_SIC (V - I)'] <= pctile5) & \
+#                                  (valid_dates.month.isin(mon_sel_ind)))
+#VRILE_dates = SIE_ens_sel_test['V (valid date)'].where(SIE_ens_sel_test['d_SIC (V - I)'] <= pctile5)
+##Now, grab Z500 for these dates
+#VRILE_dates_Z500 = (valid_dates.isin(VRILE_dates) & valid_dates.month.isin(mon_sel_ind))
+#valid_dates_summer = valid_dates.month.isin(mon_sel_ind)
+#valid_dates_summer = valid_dates_summer.flatten()
+#valid_dates_ind = np.asarray(np.where(VRILE_dates_Z500 == True))
+#valid_dates_ind = valid_dates_ind.flatten()
+#SIE_summer = SIE_ens_sel_test['d_SIC (V - I)'].where(valid_dates.month.isin(mon_sel_ind))
+#
+##Z500_select = z500[valid_dates_ind,ens_sel-1,:,:].values.reshape(len(valid_dates_ind)*s2,s3,s4)
+#Z500_mean = z500[valid_dates_summer,ens_sel-1,:,:].mean(axis=0)
+##Z500_anoms = Z500_mean - z500[valid_dates_summer,ens_sel-1,:,:].mean(axis=0)
+#Z500_anoms = Z500_mean - z500[valid_dates_summer,ens_sel-1,:,:]
             #
         #    fig1 = plt.figure()                
         #    lons, lats = np.meshgrid(lon,lat)
@@ -140,15 +148,15 @@ for iens in np.arange(0,no_ens):
         #        fname_save = save_dir+'Z500_anoms_VRILE_days_ens{ens_no}_{region}.png'.format(ens_no=iens+1,
         #                                               region=region_sel_test)
         #        fig1.savefig(fname_save,format='png',dpi=600)
-    if iens == 0:
-        Z500_anoms_ALL_ENS = Z500_anoms
-#    elif iens == 1:
-#        Z500_anoms_ALL_ENS = np.stack((Z500_anoms_ALL_ENS,Z500_anoms),axis=2)
-    else:
-        Z500_anoms_ALL_ENS = np.dstack((Z500_anoms_ALL_ENS,Z500_anoms))
-
-    #plt.close('all')
-Z500_mean = np.nanmean(Z500_anoms_ALL_ENS,axis=2)
-Z500_sign = np.sign(Z500_anoms_ALL_ENS)
-Z500_count = np.count_nonzero(Z500_sign == 1, axis=2)
-    
+#    if iens == 0:
+#        Z500_anoms_ALL_ENS = Z500_anoms
+##    elif iens == 1:
+##        Z500_anoms_ALL_ENS = np.stack((Z500_anoms_ALL_ENS,Z500_anoms),axis=2)
+#    else:
+#        Z500_anoms_ALL_ENS = np.dstack((Z500_anoms_ALL_ENS,Z500_anoms))
+#
+#    #plt.close('all')
+#Z500_mean = np.nanmean(Z500_anoms_ALL_ENS,axis=2)
+#Z500_sign = np.sign(Z500_anoms_ALL_ENS)
+#Z500_count = np.count_nonzero(Z500_sign == 1, axis=2)
+#    
