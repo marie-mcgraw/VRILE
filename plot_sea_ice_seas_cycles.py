@@ -143,8 +143,8 @@ for ireg in np.arange(0,len(regions)):
     f_dates = SIE_obs_dates.isin(valid_dates)
     SIE_obs_trim = SIE_obs_reg_sel.loc[f_dates]
     SIE_obs_mon = SIE_obs_trim.groupby(['V_mon (valid date month)'])
-    SIE_obs_mon_mean = SIE_obs_mon.std()
-    stat = 'sdev'
+    SIE_obs_mon_mean = SIE_obs_mon.median()
+    stat = 'median'
     #print(SIE_obs_mon_mean)
     SIE_seas = SIE_obs_mon_mean[choose_var_obs]
     
@@ -194,7 +194,7 @@ for ireg in np.arange(0,len(regions)):
     
     fig3 = plt.figure(3)
     ax3 = fig3.add_axes([0.1,0.1,0.8,0.8])
-    ax3.plot(np.arange(0,12),(SIC_mon_group[choose_var_model].std()-SIE_seas),'ko--',markersize=8)
+    ax3.plot(np.arange(0,12),(SIC_mon_group[choose_var_model].median()-SIE_seas),'ko--',markersize=8)
     ax3.set_xlabel('Month',fontsize=13)
     ax3.set_xticks(ticks=np.arange(0,13))
     ax3.set_xticklabels(['J','F','M','A','M','J','J','A','S','O','N','D'])
@@ -208,7 +208,7 @@ for ireg in np.arange(0,len(regions)):
     # In[63]:
     
     
-    bias = SIC_mon_group[choose_var_model].std()-SIE_seas
+    bias = SIC_mon_group[choose_var_model].median()-SIE_seas
     #Replace zeros with NaNs
     bias_adj = bias
     bias_adj.loc[bias==0] = np.nan
@@ -223,8 +223,8 @@ for ireg in np.arange(0,len(regions)):
 df_bias_plot = df_bias.pivot(index='region',columns='month',values='SIE bias')
 df_bias_plt = df_bias_plot.astype('float')
 fig6 = plt.figure(6)
-vmin = -0.5
-vmax = 0.5
+vmin = -1
+vmax = 1
 ax6 = sns.heatmap(df_bias_plt,vmin=vmin,vmax=vmax,cmap='seismic',linewidths=1,
                   linecolor='k',cbar_kws={'label': '10^6 km^2',
                                           'ticks':np.linspace(vmin,vmax,9)})
