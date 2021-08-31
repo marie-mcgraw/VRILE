@@ -4,12 +4,12 @@ import xarray as xr
 import os
 
 #1. Load S2S model output from Nic's files. We want the control runs too.  Then, select only the common reforecast period (1999-01-01 to 2014-12-31), and add the control run to the rest of the output. NOTE: for NCEP, since the reforecast period is short (ends in 2011), we will just use the entire period. 
-
 def load_model(model_name):
     # Paths for perturb and control runs
-    filepath = '/home/disk/sipn/nicway/data/model/{model_name}/reforecast/sipn_nc_agg/'.format(model_name=model_name)
-    filepath_ctrl = '/home/disk/sipn/nicway/data/model/{model_name}/reforecast.control/sipn_nc_agg/'.format(model_name=model_name)
+    filepath = '/home/disk/sipn/nicway/data/model/{model_name}/reforecast/sipn_nc_agg_commonland/'.format(model_name=model_name)
+    filepath_ctrl = '/home/disk/sipn/nicway/data/model/{model_name}/reforecast.control/sipn_nc_agg_commonland/'.format(model_name=model_name)
     # Open both with xarray
+    print('loading files from ',filepath)
     filenames = xr.open_mfdataset(filepath+'/*.nc',combine='by_coords')
     filenames_ctrl = xr.open_mfdataset(filepath_ctrl+'/*.nc',combine='by_coords')
     print(filenames)
