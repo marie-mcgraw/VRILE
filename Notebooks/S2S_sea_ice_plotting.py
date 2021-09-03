@@ -175,10 +175,10 @@ def RMSE_plot_error(ax_plt,data_plt,data_scatter,reg_sel,TO_PLOT,iplt,v_min,v_ma
     test_pal = ['cornflower','teal','purple','tangerine','crimson','burnt siena',]
     sns.set_palette(sns.xkcd_palette(test_pal),6)
     # Line plot first
-    sns.lineplot(data=data_plt,x='lead days',y=TO_PLOT,hue='Model',style='type',
+    sns.lineplot(data=data_plt,x='lead days',y=TO_PLOT,hue='Model Name',style='type',
                  ax=ax_plt,markers=False,linewidth=3,legend=False if iplt < no_regions - 1 else 'full')
     # Scatter plot on top
-    sns.scatterplot(data=data_scatter,x='lead days',y=TO_PLOT,hue='Model',style='type',
+    sns.scatterplot(data=data_scatter,x='lead days',y=TO_PLOT,hue='Model Name',style='type',
                              ax=ax_plt,legend=False,s=300)
     # 
     if clim_freq=='WEEKLY':
